@@ -1,0 +1,5 @@
+{
+  "name": "arquestra",
+  "description": "Run and manage scientific computing workflows from Claude Code. Arquestra orchestrates AI-driven computational chemistry, HPC jobs, and materials science tasks — create runs, track status, list machines and packs, and connect directly into the Arquestra execution loop.",
+  "author": "Apertura AI"
+}

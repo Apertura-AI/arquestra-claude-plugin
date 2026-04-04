@@ -1,0 +1,9 @@
+{
+  "arquestra": {
+    "type": "http",
+    "url": "https://api.apertura-ai.de/mcp/orchestration",
+    "headers": {
+      "Authorization": "Bearer ${ARQUESTRA_MACHINE_TOKEN}"
+    }
+  }
+}
