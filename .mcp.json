@@ -1,9 +1,12 @@
 {
   "arquestra": {
     "type": "http",
-    "url": "https://api.apertura-ai.de/mcp/orchestration",
-    "headers": {
-      "Authorization": "Bearer ${ARQUESTRA_MACHINE_TOKEN}"
+    "url": "https://api.arquestra.ai/mcp/orchestration",
+    "oauth": {
+      "clientId": "arquestra",
+      "authorizationEndpoint": "https://api.arquestra.ai/oauth/authorize",
+      "tokenEndpoint": "https://api.arquestra.ai/oauth/token",
+      "scopes": ["mcp:orchestration"]
     }
   }
 }

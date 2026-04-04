@@ -4,21 +4,14 @@ Connects Claude Code to [Arquestra](https://arquestra.ai) by Apertura AI — an 
 
 ## Setup
 
-1. Get your machine token from [arquestra.ai](https://arquestra.ai) (workspace setup → Local Runtime)
-
-2. Set the environment variable:
-   ```bash
-   # macOS / Linux
-   echo 'export ARQUESTRA_MACHINE_TOKEN="arqmt_..."' >> ~/.zshrc
-
-   # Windows PowerShell
-   [System.Environment]::SetEnvironmentVariable("ARQUESTRA_MACHINE_TOKEN","arqmt_...","User")
-   ```
-
-3. Install this plugin in Claude Code:
+1. Install this plugin in Claude Code:
    - Open Manage Plugins → search by GitHub URL
    - Enter: `https://github.com/apertura-ai/arquestra-claude-plugin`
    - Click Install
+
+2. Claude Code will open `https://arquestra.ai/oauth/connect` in your browser — sign in with your Arquestra account to authorize.
+
+That's it. No token pasting required.
 
 ## Available tools
 
@@ -33,9 +26,20 @@ Connects Claude Code to [Arquestra](https://arquestra.ai) by Apertura AI — an 
 
 ## Auth
 
-Authentication uses your personal **machine token** (`arqmt_…`), the same token used by the local runner. It is scoped to your account — only your runs, machines, and packs are accessible. The token is never stored in this plugin; it is read from `ARQUESTRA_MACHINE_TOKEN` at runtime.
+Authentication uses **OAuth 2.0 Authorization Code + PKCE** — the same pattern used by Supabase, Vercel, and Neon plugins. The flow:
 
-The Arquestra API enforces Clerk-based access control. Tokens are validated server-side on every request.
+1. Claude Code opens the Arquestra authorization URL in your browser
+2. You sign in with your existing Arquestra/Clerk account
+3. Claude Code receives an access token — stored locally, refreshed automatically
+4. All requests to `/mcp/orchestration` are scoped to your account
+
+**Fallback:** If you prefer a static token, you can still use a machine token (`arqmt_…`) from your workspace settings:
+```bash
+claude mcp add arquestra-fallback \
+  --transport http \
+  --url https://api.arquestra.ai/mcp/orchestration \
+  --header "Authorization: Bearer arqmt_..."
+```
 
 ## Links
 
