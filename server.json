@@ -1,0 +1,34 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.apertura-ai/arquestra",
+  "title": "Arquestra — Scientific Computing Orchestration",
+  "description": "AI orchestration platform for computational chemistry, HPC workflows, and materials science. Create and manage runs, connect to the full orchestration loop (fetch_turn / submit_response), list machines and domain packs. Supports OAuth 2.0 PKCE — no token pasting required.",
+  "repository": {
+    "url": "https://github.com/Apertura-AI/arquestra-claude-plugin",
+    "source": "github"
+  },
+  "version_detail": {
+    "version": "0.2.0"
+  },
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://api.apertura-ai.de/mcp/orchestration",
+      "headers": [
+        {
+          "key": "Authorization",
+          "value": "Bearer {arquestra_token}",
+          "description": "Machine token (arqmt_…) or OAuth access token (arqoa_…). Generate at https://arquestra.ai."
+        }
+      ],
+      "variables": {
+        "arquestra_token": {
+          "description": "Arquestra machine token (arqmt_…). Generate at https://arquestra.ai → workspace setup. OAuth flow also supported — see README.",
+          "isRequired": true,
+          "isSecret": true,
+          "format": "string"
+        }
+      }
+    }
+  ]
+}
