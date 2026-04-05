@@ -1,5 +1,5 @@
 {
-  "arquestra": {
+  "arquestra-cloud": {
     "type": "http",
     "url": "https://api.arquestra.ai/mcp/orchestration",
     "oauth": {
