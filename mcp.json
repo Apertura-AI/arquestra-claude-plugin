@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "arquestra-cloud": {
+      "type": "http",
+      "url": "https://api.apertura-ai.de/mcp/orchestration",
+      "headers": {
+        "Authorization": "Bearer <your_machine_token>"
+      }
+    }
+  }
+}
