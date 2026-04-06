@@ -3,29 +3,28 @@
 Connects [Claude Code](https://claude.ai/code) to [Arquestra](https://apertura-ai.de) by Apertura AI — an AI orchestration platform for scientific computing, computational chemistry, and HPC workflows.
 
 **MCP endpoint:** `https://api.apertura-ai.de/mcp/orchestration`  
-**Auth:** OAuth 2.0 PKCE (no token pasting)
+**Auth:** OAuth 2.0 PKCE — sign in once with your Arquestra account, token stored for 90 days.
 
 ---
 
 ## Install
 
-### Via Claude Code Plugin Manager (recommended)
+### Via Arquestra Runner (recommended — automatic)
+
+If you have the [Arquestra Runner](https://apertura-ai.de) installed:
+
+```bash
+arquestra-runner configure-mcp --agent all
+```
+
+This registers the plugin automatically. On first use, Claude Code opens `https://apertura-ai.de/oauth/connect` in your browser. If you are already signed into your Arquestra account there, authorization completes instantly with no extra steps. If not, sign in once and you are done.
+
+### Via Claude Code Plugin Manager (manual fallback)
 
 1. Open **Manage Plugins** → Install by GitHub URL
 2. Enter: `https://github.com/Apertura-AI/arquestra-claude-plugin`
 3. Click **Install**
-
-Claude Code opens `https://apertura-ai.de/oauth/connect` in your browser — sign in with your Arquestra account. Done. The token is stored locally for 90 days and refreshed automatically.
-
-### Via Arquestra Runner (automatic)
-
-If you have the [Arquestra Runner](https://apertura-ai.de) installed, the plugin is configured automatically:
-
-```bash
-arquestra-runner configure-mcp --agent claude
-```
-
-This registers the plugin and handles OAuth on first connection.
+4. On first use, Claude Code opens `https://apertura-ai.de/oauth/connect` — sign in if not already authenticated.
 
 ---
 
@@ -45,19 +44,17 @@ This registers the plugin and handles OAuth on first connection.
 
 ## Auth
 
-**OAuth 2.0 PKCE** — the API exposes `/.well-known/oauth-authorization-server`. Claude Code handles the login flow automatically on first connection. No tokens to paste or manage.
+**OAuth 2.0 PKCE** — the API exposes `/.well-known/oauth-authorization-server`. Claude Code handles the full login flow on first connection. No tokens to paste or manage. The 90-day access token is stored locally and renewed on expiry.
 
 ---
 
 ## Other agents
 
-For Codex CLI, Gemini CLI, VS Code, Cursor, and others — use the Arquestra Runner:
+For Codex CLI, Gemini CLI, VS Code, Cursor, and others — the runner covers them too:
 
 ```bash
 arquestra-runner configure-mcp --agent all
 ```
-
-This writes the correct MCP config for each detected agent automatically.
 
 ---
 
