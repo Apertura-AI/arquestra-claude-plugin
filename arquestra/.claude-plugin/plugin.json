@@ -1,0 +1,12 @@
+{
+  "name": "arquestra",
+  "version": "0.2.0",
+  "description": "Run and manage scientific computing workflows from Claude Code. Arquestra orchestrates AI-driven computational chemistry, HPC jobs, and materials science tasks.",
+  "author": {
+    "name": "Apertura AI",
+    "url": "https://github.com/Apertura-AI"
+  },
+  "repository": "https://github.com/Apertura-AI/arquestra-claude-plugin",
+  "license": "Proprietary",
+  "mcpServers": "./mcp.json"
+}

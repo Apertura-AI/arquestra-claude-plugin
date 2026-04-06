@@ -1,0 +1,18 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "arquestra",
+  "description": "Arquestra — AI orchestration for computational chemistry and HPC workflows",
+  "owner": {
+    "name": "Apertura AI",
+    "url": "https://github.com/Apertura-AI"
+  },
+  "plugins": [
+    {
+      "name": "arquestra",
+      "description": "Run and manage scientific computing workflows from Claude Code. Arquestra orchestrates AI-driven computational chemistry, HPC jobs, and materials science tasks.",
+      "category": "productivity",
+      "source": "./arquestra",
+      "homepage": "https://apertura-ai.de"
+    }
+  ]
+}
