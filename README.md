@@ -1,100 +1,31 @@
-# Arquestra — MCP Plugin
+# Arquestra — Claude Code Plugin
 
-Connects AI agents to [Arquestra](https://arquestra.ai) by Apertura AI — an AI orchestration platform for scientific computing, computational chemistry, and HPC workflows.
+Connects [Claude Code](https://claude.ai/code) to [Arquestra](https://apertura-ai.de) by Apertura AI — an AI orchestration platform for scientific computing, computational chemistry, and HPC workflows.
 
-**MCP endpoint:** `https://api.arquestra.ai/mcp/orchestration`  
-**Auth:** OAuth 2.0 PKCE (no token pasting) · Bearer machine token fallback
+**MCP endpoint:** `https://api.apertura-ai.de/mcp/orchestration`  
+**Auth:** OAuth 2.0 PKCE (no token pasting)
 
 ---
 
-## Claude Code
+## Install
 
-### Option A — OAuth (recommended, no token pasting)
+### Via Claude Code Plugin Manager (recommended)
 
-Install from Claude Code:
-- Open **Manage Plugins** → search by GitHub URL
-- Enter: `https://github.com/apertura-ai/arquestra-claude-plugin`
-- Click **Install**
+1. Open **Manage Plugins** → Install by GitHub URL
+2. Enter: `https://github.com/Apertura-AI/arquestra-claude-plugin`
+3. Click **Install**
 
-Claude Code opens `https://arquestra.ai/oauth/connect` in your browser — sign in with your Arquestra account. Done.
+Claude Code opens `https://apertura-ai.de/oauth/connect` in your browser — sign in with your Arquestra account. Done. The token is stored locally for 90 days and refreshed automatically.
 
-### Option B — machine token
+### Via Arquestra Runner (automatic)
+
+If you have the [Arquestra Runner](https://apertura-ai.de) installed, the plugin is configured automatically:
 
 ```bash
-claude mcp add arquestra \
-  --transport http \
-  --url https://api.arquestra.ai/mcp/orchestration \
-  --header "Authorization: Bearer arqmt_..."
+arquestra-runner configure-mcp --agent claude
 ```
 
-Get your token at [arquestra.ai](https://arquestra.ai) → workspace setup → Local Runtime.
-
----
-
-## OpenAI Codex CLI
-
-Add to `~/.codex/config.toml`:
-
-```toml
-[mcp_servers.arquestra]
-url = "https://api.arquestra.ai/mcp/orchestration"
-# Bearer machine token fallback (OAuth not yet supported by Codex)
-bearer_token_env_var = "ARQUESTRA_MACHINE_TOKEN"
-```
-
-Set the env var:
-```bash
-# macOS / Linux
-echo 'export ARQUESTRA_MACHINE_TOKEN="arqmt_..."' >> ~/.zshrc
-
-# Windows PowerShell
-[System.Environment]::SetEnvironmentVariable("ARQUESTRA_MACHINE_TOKEN","arqmt_...","User")
-```
-
----
-
-## GitHub Copilot / VS Code
-
-Requires VS Code 1.101+. Add to `.vscode/mcp.json` (workspace) or user MCP settings:
-
-### Option A — OAuth auto-discovery (VS Code 1.101+)
-
-```json
-{
-  "servers": {
-    "arquestra": {
-      "type": "http",
-      "url": "https://api.arquestra.ai/mcp/orchestration"
-    }
-  }
-}
-```
-
-VS Code discovers the OAuth server automatically via `/.well-known/oauth-authorization-server` and opens the browser sign-in flow.
-
-### Option B — machine token
-
-```json
-{
-  "servers": {
-    "arquestra": {
-      "type": "http",
-      "url": "https://api.arquestra.ai/mcp/orchestration",
-      "headers": {
-        "Authorization": "Bearer ${input:arquestra_token}"
-      }
-    }
-  },
-  "inputs": [
-    {
-      "type": "promptString",
-      "id": "arquestra_token",
-      "description": "Arquestra machine token (arqmt_…)",
-      "password": true
-    }
-  ]
-}
-```
+This registers the plugin and handles OAuth on first connection.
 
 ---
 
@@ -102,7 +33,8 @@ VS Code discovers the OAuth server automatically via `/.well-known/oauth-authori
 
 | Tool | Description |
 |---|---|
-| `create_run` | Start a new run — returns `run_id`, token, and MCP URL to enter the full orchestration loop |
+| `cloud_mcp_probe` | Verify cloud MCP connection |
+| `create_run` | Start a new run — returns `run_id` and enters the orchestration loop |
 | `list_runs` | List your runs, newest first |
 | `get_run` | Get status and details for a specific run |
 | `get_run_logs` | Fetch current state and logs for a run |
@@ -113,15 +45,24 @@ VS Code discovers the OAuth server automatically via `/.well-known/oauth-authori
 
 ## Auth
 
-**OAuth 2.0 PKCE** (recommended): supported by Claude Code and Copilot/VS Code. The API server exposes `/.well-known/oauth-authorization-server` — agents that support OAuth auto-discovery will handle the login flow automatically.
+**OAuth 2.0 PKCE** — the API exposes `/.well-known/oauth-authorization-server`. Claude Code handles the login flow automatically on first connection. No tokens to paste or manage.
 
-**Machine token** (`arqmt_…`) fallback: for agents that don't support OAuth yet (Codex CLI) or for headless environments. Generate one at [arquestra.ai](https://arquestra.ai) → workspace setup.
+---
+
+## Other agents
+
+For Codex CLI, Gemini CLI, VS Code, Cursor, and others — use the Arquestra Runner:
+
+```bash
+arquestra-runner configure-mcp --agent all
+```
+
+This writes the correct MCP config for each detected agent automatically.
 
 ---
 
 ## Links
 
-- [Arquestra](https://arquestra.ai)
-- [Apertura AI](https://apertura.ai)
-- [MCP endpoint docs](https://api.arquestra.ai/mcp/orchestration)
-- [OAuth server metadata](https://api.arquestra.ai/.well-known/oauth-authorization-server)
+- [Arquestra](https://apertura-ai.de)
+- [Apertura AI](https://github.com/Apertura-AI)
+- [OAuth server metadata](https://api.apertura-ai.de/.well-known/oauth-authorization-server)
